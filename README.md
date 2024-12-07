@@ -921,105 +921,94 @@ game:GetService("ReplicatedStorage"):WaitForChild("ReviveSystem"):WaitForChild("
 
 local Toggle = Tabs.playes:AddToggle("MyToggle", {Title = "Auto Eat", Default = false })
 
-local running = false -- ตัวแปรเพื่อตรวจสอบสถานะการทำงานของลูป
 
 Toggle:OnChanged(function(state)
     local player = game:GetService("Players").LocalPlayer
+    local hunger = player.Status.Hunger.Value
+    local shield = player.Status.Shield.Value
+    local thirsty = player.Status.Thirsty.Value
 
-    -- ตรวจสอบสถานะของ Toggle
-    if state then
-        if not running then
-            running = true  -- ตั้งค่าตัวแปร running เป็น true เพื่อเริ่มลูป
-            spawn(function()  -- ใช้ spawn เพื่อให้สามารถหยุดการทำงานได้ทันที
-                while true do
-                    -- ตรวจสอบ Hunger
-                    local hunger = player.Status.Hunger.Value
-                    if hunger < 50 then
-                        local args = {
-                            [1] = "Use",
-                            [2] = "Bread"
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
-                        wait(0.2)
-                        local args = {
-                            [1] = "Store",
-                            [2] = "Bread",
-                            [3] = 1
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
-                        wait(30)
-                        local args = {
-                            [1] = "Get",
-                            [2] = "Bread",
-                            [3] = 1
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
-                    end
+    if state then  -- ถ้า Toggle เปิด
+        -- ถ้า Hunger น้อยกว่า 50 ให้ใช้ขนมปัง
+        if hunger < 50 then
+            local args = {
+                [1] = "Use",
+                [2] = "Bread"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
+            wait(0.2)
 
-                    -- ตรวจสอบ Shield (สมมติว่าเก็บในค่า Hunger)
-                    local Shield = player.Status.Hunger.Value
-                    if Shield > 50 then
-                        local args = {
-                            [1] = "Use",
-                            [2] = "Tea"
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
-                        wait(0.2)
-                        local args = {
-                            [1] = "Store",
-                            [2] = "Tea",
-                            [3] = 1
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
-                        wait(30)
-                        local args = {
-                            [1] = "Get",
-                            [2] = "Tea",
-                            [3] = 1
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
-                    end
+            local args = {
+                [1] = "Store",
+                [2] = "Bread",
+                [3] = 1
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
+            wait(30)
 
-                    -- ตรวจสอบ Thirsty
-                    local Thirsty = player.Status.Hunger.Value
-                    if Thirsty < 50 then
-                        local args = {
-                            [1] = "Use",
-                            [2] = "Water"
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
-                        wait(0.2)
-                        local args = {
-                            [1] = "Store",
-                            [2] = "Water",
-                            [3] = 1
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
-                        wait(30)
-                        local args = {
-                            [1] = "Get",
-                            [2] = "Water",
-                            [3] = 1
-                        }
-                        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
-                    end
-
-                    -- รอ 60 วินาที ก่อนทำงานต่อ
-                    wait(60)
-
-                    -- ตรวจสอบสถานะของ Toggle ทุกครั้งก่อนทำงานใหม่
-                    if not state then
-                        running = false  -- หยุดการทำงานเมื่อ Toggle ปิด
-                        break  -- ออกจากลูปถ้าปิด Toggle
-                    end
-                end
-            end)
+            local args = {
+                [1] = "Get",
+                [2] = "Bread",
+                [3] = 1
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
         end
-    else
-        -- ถ้า Toggle ปิด ให้หยุดการทำงานของลูป
-        running = false
+
+        -- ถ้า Shield มากกว่า 50 ให้ใช้ชา
+        if shield > 50 then
+            local args = {
+                [1] = "Use",
+                [2] = "Tea"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
+            wait(0.2)
+
+            local args = {
+                [1] = "Store",
+                [2] = "Tea",
+                [3] = 1
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
+            wait(30)
+
+            local args = {
+                [1] = "Get",
+                [2] = "Tea",
+                [3] = 1
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
+        end
+
+        -- ถ้า Thirsty น้อยกว่า 50 ให้ใช้น้ำ
+        if thirsty < 50 then
+            local args = {
+                [1] = "Use",
+                [2] = "Water"
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
+            wait(0.2)
+
+            local args = {
+                [1] = "Store",
+                [2] = "Water",
+                [3] = 1
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
+            wait(30)
+
+            local args = {
+                [1] = "Get",
+                [2] = "Water",
+                [3] = 1
+            }
+            game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Vault"):FireServer(unpack(args))
+        end
+    else  -- ถ้า Toggle ปิด
+        -- สามารถเพิ่มคำสั่งที่ต้องการทำเมื่อ Toggle ปิด (ถ้าต้องการให้มันทำอะไรเมื่อปิด)
     end
 end)
+
+
 
 
 Tabs.lsland:AddParagraph({
