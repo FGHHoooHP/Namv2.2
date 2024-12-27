@@ -217,7 +217,7 @@ if _G.Autoprompt then
         while _G.Autoprompt do
             task.wait(1)  -- เช็คทุก 1 วินาที
 for i = 1, 100 do
-    local prompt = workspace.Jobs.Moo_Deng.Shibas.TorresMeow680["Moo_Deng " .. i].MeshPart.ProximityPrompt
+    local prompt = workspace.Jobs.Moo_Deng.Shibas.ad_minbuffalo["Moo_Deng " .. i].MeshPart.ProximityPrompt
     
     if prompt then
         prompt.HoldDuration = 0  -- ตั้ง HoldDuration เป็น 0
@@ -231,7 +231,7 @@ end
 
 
 local function feedMooDeng(mooDengName)
-    local target = workspace.Jobs.Moo_Deng.Shibas.TorresMeow680[mooDengName]
+    local target = workspace.Jobs.Moo_Deng.Shibas.ad_minbuffalo[mooDengName]
     local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
     
     -- Move to the target position
@@ -256,7 +256,7 @@ if _G.AutoMoo_Deng then
             -- Check each Moo_Deng and feed if necessary
             for i = 1, 5 do
                 local mooDengName = "Moo_Deng " .. i
-                local mooDeng = workspace.Jobs.Moo_Deng.Shibas.TorresMeow680[mooDengName]
+                local mooDeng = workspace.Jobs.Moo_Deng.Shibas.ad_minbuffalo[mooDengName]
                 
                 if mooDeng and mooDeng.MeshPart.ProximityPrompt.ActionText == 'ให้อาหาร' then
                     feedMooDeng(mooDengName)
