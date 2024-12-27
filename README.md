@@ -1,7 +1,7 @@
 warn("Anti AFK Actived")
 local part = Instance.new("Part")
 part.Size = Vector3.new(4, 1, 4)  -- ขนาดของบล็อก
-part.Position = Vector3.new(3701, 9999, 1582)  -- ตำแหน่ง
+part.Position = Vector3.new(3701, 99999999, 1582)  -- ตำแหน่ง
 part.Anchored = true  -- ทำให้บล็อกอยู่นิ่ง
 part.Parent = workspace  -- เพิ่มบล็อกใน workspace
 
@@ -104,7 +104,7 @@ game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-4198, 4, -111))
 wait(0.2)
 game.Players.LocalPlayer.Character:MoveTo(Vector3.new(-6737, 4, 2943))
 wait(0.2)
-game.Players.LocalPlayer.Character:MoveTo(Vector3.new(3701, 10005, 1582))
+game.Players.LocalPlayer.Character:MoveTo(Vector3.new(3701, 100000010, 1582))
 wait(0.2)
 _G.AutoPlayers = false
       end
