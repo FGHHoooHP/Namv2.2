@@ -206,7 +206,72 @@ end
 end)
 end
 
-local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "CheckAdmin", Default = false})
+local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "Auto Moo_Deng", Default = false})
+
+Toggle:OnChanged(function(state)
+_G.Autoprompt = state
+_G.AutoMoo_Deng = state
+
+if _G.Autoprompt then
+    task.spawn(function()
+        while _G.Autoprompt do
+            task.wait(1)  -- เช็คทุก 1 วินาที
+for i = 1, 100 do
+    local prompt = workspace.Jobs.Moo_Deng.Shibas.TorresMeow680["Moo_Deng " .. i].MeshPart.ProximityPrompt
+    
+    if prompt then
+        prompt.HoldDuration = 0  -- ตั้ง HoldDuration เป็น 0
+        prompt.MaxActivationDistance = 100  -- ตั้ง MaxActivationDistance เป็น 100
+    end
+end
+end
+end)
+end
+
+
+
+local function feedMooDeng(mooDengName)
+    local target = workspace.Jobs.Moo_Deng.Shibas.TorresMeow680[mooDengName]
+    local humanoid = game.Players.LocalPlayer.Character:WaitForChild("Humanoid")
+    
+    -- Move to the target position
+    humanoid:MoveTo(target.WorldPivot.Position)
+
+    -- Check when the character has reached the target and perform the action
+    humanoid.MoveToFinished:Connect(function(reached)
+        if reached then
+            -- Trigger the "E" key press for feeding
+            game:GetService('VirtualInputManager'):SendKeyEvent(true, "E", false, game)
+            wait()
+            game:GetService('VirtualInputManager'):SendKeyEvent(false, "E", false, game)
+        end
+    end)
+end
+
+if _G.AutoMoo_Deng then
+    task.spawn(function()
+        while _G.AutoMoo_Deng do
+            task.wait(1)  -- Check every 1 second
+
+            -- Check each Moo_Deng and feed if necessary
+            for i = 1, 5 do
+                local mooDengName = "Moo_Deng " .. i
+                local mooDeng = workspace.Jobs.Moo_Deng.Shibas.TorresMeow680[mooDengName]
+                
+                if mooDeng and mooDeng.MeshPart.ProximityPrompt.ActionText == 'ให้อาหาร' then
+                    feedMooDeng(mooDengName)
+                end
+            end
+            wait(5)  -- Wait before checking again
+        end
+    end)
+end
+
+
+
+
+
+local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "CheckAdmin", Default = true})
 
 Toggle:OnChanged(function(state)
 
@@ -218,7 +283,7 @@ if _G.Checkadmin then
             task.wait(1)  -- เช็คทุก 1 วินาที
 
 
-local playerNames = {"may65448", "BossFriends9", "thong2821", "Sky_Alinsip"}
+local playerNames = {"CheckAdmin", "BossFriends9", "thong2821", "Sky_Alinsip"}
 
 for _, playerName in ipairs(playerNames) do
     local player = game:GetService("Players"):FindFirstChild(playerName)
@@ -274,6 +339,8 @@ Toggle:OnChanged(function(state)
         isAutoEating = false
     end
 end)
+end)
+
 
 
 
