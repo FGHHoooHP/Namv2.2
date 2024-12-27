@@ -40,6 +40,7 @@ _G.AutoSell = state
 _G.AintAFK = state
 _G.animationTrack = state
 _G.AutoSell = state
+_G.AutoTool = state
 
 if _G.Autoitem then
     task.spawn(function()
@@ -175,7 +176,37 @@ end
 end)
 end
 
-local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "CheckAdmin", Default = true})
+
+
+if _G.AutoTool then
+    task.spawn(function()
+        while _G.AutoTool do
+            task.wait(0)  -- เช็คทุก 1 วินาที
+
+if not workspace.TorresMeow680:FindFirstChild("Saw") or workspace.TorresMeow680:FindFirstChild("Cleaver") then
+    -- Use Saw if not found
+    if not workspace.TorresMeow680:FindFirstChild("Saw") then
+        local args = {
+            [1] = "Use",
+            [2] = "Saw"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
+    end
+
+    -- Use Cleaver if found
+    if workspace.TorresMeow680:FindFirstChild("Cleaver") then
+        local args = {
+            [1] = "Use",
+            [2] = "Cleaver"
+        }
+        game:GetService("ReplicatedStorage"):WaitForChild("Remote"):WaitForChild("Inventory"):FireServer(unpack(args))
+    end
+end
+end
+end)
+end
+
+local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "CheckAdmin", Default = false})
 
 Toggle:OnChanged(function(state)
 
