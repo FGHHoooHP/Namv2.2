@@ -175,7 +175,7 @@ end
 end)
 end
 
-local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "CheckAdmin", Default = false})
+local Toggle = Tabs.Main:AddToggle("MyToggle", {Title = "CheckAdmin", Default = true})
 
 Toggle:OnChanged(function(state)
 
